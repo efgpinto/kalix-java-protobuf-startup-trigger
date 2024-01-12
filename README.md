@@ -34,30 +34,12 @@ To start your service locally, run:
 mvn kalix:runAll
 ```
 
-This command will start your Kalix service and a companion Kalix Runtime as configured in [docker-compose.yml](./docker-compose.yml) file.
-
-> Note: if you're looking to use Google Pub/Sub, see comments inside [docker-compose.yml](./docker-compose.yml)
-> on how to enable a Google Pub/Sub emulator that Kalix Runtime will connect to.
-
-With both the Kalix Runtime and your service running, any defined endpoints should be available at `http://localhost:9000`. In addition to the defined gRPC interface, each method has a corresponding HTTP endpoint. Unless configured otherwise (see [Transcoding HTTP](https://docs.kalix.io/java-protobuf/writing-grpc-descriptors-protobuf.html#_transcoding_http)), this endpoint accepts POST requests at the path `/[package].[entity name]/[method]`. For example, using `curl`:
-
+You will see a log like this:
 ```shell
-> curl -XPOST -H "Content-Type: application/json" localhost:9000/com.example.CounterService/GetCurrentCounter -d '{"counterId": "foo"}'
-The command handler for `GetCurrentCounter` is not implemented, yet
+09:49:46.484 INFO  com.example.ExampleActionImpl - Example action initializing...
 ```
 
-For example, using [`grpcurl`](https://github.com/fullstorydev/grpcurl):
-
-```shell
-> grpcurl -plaintext -d '{"counterId": "foo"}' localhost:9000 com.example.CounterService/GetCurrentCounter 
-ERROR:
-  Code: Unknown
-  Message: The command handler for `GetCurrentCounter` is not implemented, yet
-```
-
-> Note: The failure is to be expected if you have not yet provided an implementation of `GetCurrentCounter` in
-> your entity.
-
+This means the init method on the Action was actually run.
 
 ## Deploying
 
