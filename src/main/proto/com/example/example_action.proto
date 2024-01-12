@@ -1,0 +1,23 @@
+// This is the public API offered by your entity.
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "kalix/annotations.proto";
+import "google/api/annotations.proto";
+
+package com.example;
+
+option java_outer_classname = "ExampleActionApi";
+
+service ExampleAction {
+  option (kalix.codegen) = {
+    action: {}
+  };
+
+  rpc Init (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (kalix.method).trigger = {
+      on: STARTUP,
+      max_retries: 3
+    };
+  }
+}
